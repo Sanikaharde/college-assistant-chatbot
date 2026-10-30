@@ -1,7 +1,6 @@
-function sendMessage() {
+async function sendMessage() {
 
     const input = document.getElementById("message");
-
     const message = input.value;
 
     if (message === "") {
@@ -14,5 +13,23 @@ function sendMessage() {
         <p><b>You:</b> ${message}</p>
     `;
 
+    const response = await fetch("/chat", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            message: message
+        })
+    });
+
+    const data = await response.json();
+
+    chatbox.innerHTML += `
+        <p><b>Bot:</b> ${data.response}</p>
+    `;
+
     input.value = "";
+
+    chatbox.scrollTop = chatbox.scrollHeight;
 }
