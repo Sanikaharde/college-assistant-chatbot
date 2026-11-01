@@ -19,11 +19,10 @@ def chat():
 
     for keyword, answer in responses.items():
 
-    if keyword.lower() in message:
-        return jsonify({
-            "response": answer
-        })
-
+        if keyword.lower() in message:
+            return jsonify({
+                "response": answer
+            })
 
     return jsonify({
         "response": "Sorry, I don't have information about that."

@@ -65,3 +65,20 @@ document.getElementById("message")
     }
 
 });
+
+function clearChat() {
+
+    document.getElementById("chatbox").innerHTML = `
+        <div class="message bot">
+            Hello! 👋<br><br>
+            You can ask me about:
+            <br>• Exams
+            <br>• Admissions
+            <br>• Fees
+            <br>• Library
+            <br>• Hostel
+            <br>• Placements
+            <br>• Scholarships
+        </div>
+    `;
+}
