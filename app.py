@@ -17,12 +17,13 @@ def chat():
 
     message = request.json["message"].lower()
 
-    for keyword in responses:
+    for keyword, answer in responses.items():
 
-        if keyword in message:
-            return jsonify({
-                "response": responses[keyword]
-            })
+    if keyword.lower() in message:
+        return jsonify({
+            "response": answer
+        })
+
 
     return jsonify({
         "response": "Sorry, I don't have information about that."
