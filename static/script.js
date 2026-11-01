@@ -12,8 +12,12 @@ async function sendMessage() {
     chatbox.innerHTML += `
     <div class="message user">
         ${message}
+        <span class="timestamp">
+            ${getCurrentTime()}
+        </span>
     </div>
 `;
+
 
 input.value = "";
 
@@ -38,10 +42,13 @@ input.value = "";
         console.log("Data received:", data);
 
         chatbox.innerHTML += `
-            <div class="message bot">
-                ${data.response}
-            </div>
-        `;
+    <div class="message bot">
+        ${data.response}
+        <span class="timestamp">
+            ${getCurrentTime()}
+        </span>
+    </div>
+`;
 
     } catch (error) {
 
@@ -81,4 +88,15 @@ function clearChat() {
             <br>• Scholarships
         </div>
     `;
+}
+
+function getCurrentTime() {
+
+    const now = new Date();
+
+    return now.toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit"
+    });
+
 }

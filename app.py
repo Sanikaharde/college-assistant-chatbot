@@ -1,10 +1,12 @@
 from flask import Flask, render_template, request, jsonify
-import json
+import pymssql
 
 app = Flask(__name__)
 
-with open("data/responses.json", "r") as file:
-    responses = json.load(file)
+SERVER = "LAPTOP-707J6I72\\HP"   # change if needed
+USER = "sa"
+PASSWORD = "YOUR_PASSWORD"
+DATABASE = "CollegeChatbot"
 
 
 @app.route("/")
@@ -17,12 +19,33 @@ def chat():
 
     message = request.json["message"].lower()
 
-    for keyword, answer in responses.items():
+    conn = pymssql.connect(
+        server=SERVER,
+        user=USER,
+        password=PASSWORD,
+        database=DATABASE
+    )
 
-        if keyword.lower() in message:
+    cursor = conn.cursor(as_dict=True)
+
+    cursor.execute("""
+        SELECT keyword, answer
+        FROM FAQ
+    """)
+
+    rows = cursor.fetchall()
+
+    for row in rows:
+
+        if row["keyword"].lower() in message:
+
+            conn.close()
+
             return jsonify({
-                "response": answer
+                "response": row["answer"]
             })
+
+    conn.close()
 
     return jsonify({
         "response": "Sorry, I don't have information about that."
