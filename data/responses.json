@@ -1,4 +1,9 @@
 {
+    "hello": "Hello! Welcome to the College Assistant Chatbot.",
+    "hi": "Hi! How can I help you today?",
+    "hey": "Hey there! What would you like to know?",
+    "good morning": "Good morning! How can I assist you today?",
+
     "exam": "Semester examinations start from 15 December.",
     "fees": "Annual fees are ₹50,000.",
     "admission": "Admissions are open until 31 July.",

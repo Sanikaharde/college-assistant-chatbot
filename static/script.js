@@ -10,26 +10,58 @@ async function sendMessage() {
     const chatbox = document.getElementById("chatbox");
 
     chatbox.innerHTML += `
-        <p><b>You:</b> ${message}</p>
-    `;
+    <div class="message user">
+        ${message}
+    </div>
+`;
 
-    const response = await fetch("/chat", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            message: message
-        })
-    });
+input.value = "";
 
-    const data = await response.json();
+    try {
 
-    chatbox.innerHTML += `
-        <p><b>Bot:</b> ${data.response}</p>
-    `;
+        console.log("Sending request to Flask...");
+
+        const response = await fetch("/chat", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                message: message
+            })
+        });
+
+        console.log("Response received:", response);
+
+        const data = await response.json();
+
+        console.log("Data received:", data);
+
+        chatbox.innerHTML += `
+            <div class="message bot">
+                ${data.response}
+            </div>
+        `;
+
+    } catch (error) {
+
+        console.log("ERROR:", error);
+
+        chatbox.innerHTML += `
+            <div class="message bot">
+                Error connecting to server.
+            </div>
+        `;
+    }
 
     input.value = "";
-
-    chatbox.scrollTop = chatbox.scrollHeight;
 }
+
+document.getElementById("message")
+.addEventListener("keypress", function(event) {
+
+    if (event.key === "Enter") {
+        sendMessage();
+    }
+
+});
